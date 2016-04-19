@@ -9,8 +9,11 @@ var app = express();
 app.use(bodyParser.json());
 
 app.get("/webhook", (req, res) => {
+    console.log("got here");
     if (req.query['hub.verify_token'] === verifyToken)
         return res.send(req.query['hub.challenge']);
 
     res.send('Error, wrong validation token');
 });
+
+app.listen(3000);
