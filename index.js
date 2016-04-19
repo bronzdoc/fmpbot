@@ -60,7 +60,7 @@ function sendMessage (sender, message) {
 }
 
 function sendGenericMessage(sender) {
-  messageData = {
+  sendMessage(sender, {
     "attachment": {
       "type": "template",
       "payload": {
@@ -89,21 +89,6 @@ function sendGenericMessage(sender) {
           }],
         }]
       }
-    }
-  };
-  request({
-    url: "https://graph.facebook.com/v2.6/me/messages",
-    query: {access_token:pageToken},
-    method: "POST",
-    json: {
-      recipient: {id:sender},
-      message: messageData,
-    }
-  }, function(error, response, body) {
-    if (error) {
-      console.log("Error sending message: ", error);
-    } else if (response.body.error) {
-      console.log("Error: ", response.body.error);
     }
   });
 }
