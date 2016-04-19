@@ -8,11 +8,13 @@ var verifyToken = process.env.APP_VERIFY_TOKEN;
 var app = express();
 app.use(bodyParser.json());
 
-app.get("/webhook", (req, res) => {
-    if (req.query['hub.verify_token'] === verifyToken)
-        return res.send(req.query['hub.challenge']);
+app.set("port", process.env.PORT || 5000);
 
-    res.send('Error, wrong validation token');
+app.get("/webhook", (req, res) => {
+    if (req.query["hub.verify_token"] === verifyToken)
+        return res.send(req.query["hub.challenge"]);
+
+    res.send("Error, wrong validation token");
 });
 
 app.post("/webhook", (req, res) => {
@@ -36,7 +38,7 @@ function sendTextMessage(sender, message) {
 
 function sendMessage (sender, message) {
     request
-        .post('https://graph.facebook.com/v2.6/me/messages')
+        .post("https://graph.facebook.com/v2.6/me/messages")
         .query({access_token: pageToken})
         .send({
             recipient: {
@@ -46,11 +48,13 @@ function sendMessage (sender, message) {
         })
     .end((err, res) => {
         if (err) {
-            console.log('Error sending message: ', err);
+            console.log("Error sending message: ", err);
         } else if (res.body.error) {
-            console.log('Error: ', res.body.error);
+            console.log("Error: ", res.body.error);
         }
     });
 }
 
-app.listen(3000);
+app.listen(app.get("port"), () => {
+    console.log("App running on port:", app.get("port"));
+});
