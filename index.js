@@ -21,7 +21,9 @@ app.post("/webhook", (req, res) => {
     var messaging_events = req.body.entry[0].messaging;
     messaging_events.forEach((event) => {
         var sender = event.sender.id;
+        var text;
 
+        // Handle messages
         if (event.message && event.message.text) {
             text = event.message.text;
             if (text === "Generic") {
@@ -29,6 +31,12 @@ app.post("/webhook", (req, res) => {
             } else {
                 sendTextMessage(sender, "Text received, echo: " + text);
             }
+        }
+
+        // Handle postback
+        if (event.postback) {
+            text = JSON.stringify(event.postback);
+            sendTextMessage(sender, "Postback received: "+text.substring(0, 200), token);
         }
     })
     res.sendStatus(200);
