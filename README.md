@@ -1,8 +1,8 @@
-# fmpbot - Demo of the Facebook Messenger Platform
+### fmpbot - Demo of the Facebook Messenger Platform
 
 [Facebook Messenger Platform quickstart](https://developers.facebook.com/docs/messenger-platform/quickstart)
 
-# Usage
+### Usage
 ```
 git clone https://github.com/bronzdoc/fmpbot
 cd fmpbot
